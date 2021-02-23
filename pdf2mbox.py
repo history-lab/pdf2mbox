@@ -1,6 +1,18 @@
+import argparse
 import mailbox
 import email.utils
 
+parser = argparse.ArgumentParser(
+            description='Generates an mbox from a PDF containing emails')
+parser.add_argument('pdf_file', help='PDF file provided as input')
+parser.add_argument('mbox_file', help='Mbox file generated as output')
+parser.add_argument('--version', action='version', version='%(prog)s 0.1')
+cl_args = parser.parse_args()
+pdf_filename = cl_args.pdf_file
+mbox_filename = cl_args.mbox_file
+print(f'{pdf_filename} {mbox_filename}')
+
+exit(1)
 from_addr = email.utils.formataddr(('Author',
                                     'author@example.com'))
 to_addr = email.utils.formataddr(('Recipient',
