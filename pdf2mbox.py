@@ -12,7 +12,6 @@ pdf_filename = cl_args.pdf_file
 mbox_filename = cl_args.mbox_file
 print(f'{pdf_filename} {mbox_filename}')
 
-exit(1)
 from_addr = email.utils.formataddr(('Author',
                                     'author@example.com'))
 to_addr = email.utils.formataddr(('Recipient',
@@ -23,7 +22,7 @@ From (will not be escaped).
 There are 3 lines.
 '''
 
-mbox = mailbox.mbox('example.mbox')
+mbox = mailbox.mbox(mbox_filename)
 mbox.lock()
 try:
     msg = mailbox.mboxMessage()
@@ -46,4 +45,4 @@ try:
 finally:
     mbox.unlock()
 
-print(open('example.mbox', 'r').read())
+print(open(mbox_filename, 'r').read())
