@@ -2,8 +2,11 @@ import argparse
 import os.path
 import sys
 import magic
-import mailbox
+import pdftotext
+import quopri
+import email
 import email.utils
+import mailbox
 
 # CLI
 parser = argparse.ArgumentParser(
@@ -23,40 +26,34 @@ if not os.path.isfile(pdf_filename):
 if magic.from_file(pdf_filename, mime=True) != 'application/pdf':
     sys.exit(f'error: {pdf_filename} is not a PDF file.')
 
+# Extract text from pdf
+with open(pdf_filename, 'rb') as f:
+    pdf = pdftotext.PDF(f)
+
+# pdf_page = io.StringIO()
+pdf_page = pdf[0]
+
+# print(pdf_page)
+# print(type(pdf_page))
+msg = email.message_from_string(pdf_page)
+i = 0
+for k, v in msg.items():
+    i += 1
+    print(f'{i}. msg[{k}] {v}')
+print(msg.get_payload())
 print(f'{pdf_filename} {mbox_filename}')
-exit()
-
-from_addr = email.utils.formataddr(('Author',
-                                    'author@example.com'))
-to_addr = email.utils.formataddr(('Recipient',
-                                  'recipient@example.com'))
-
-payload = '''This is the body.
-From (will not be escaped).
-There are 3 lines.
-'''
 
 mbox = mailbox.mbox(mbox_filename)
 mbox.lock()
 try:
-    msg = mailbox.mboxMessage()
-    msg.set_unixfrom('author Sat Feb  7 01:05:34 2009')
-    msg['From'] = from_addr
-    msg['To'] = to_addr
-    msg['Subject'] = 'Sample message 1'
-    msg.set_payload(payload)
-    mbox.add(msg)
-    mbox.flush()
-
-    msg = mailbox.mboxMessage()
-    msg.set_unixfrom('author')
-    msg['From'] = from_addr
-    msg['To'] = to_addr
-    msg['Subject'] = 'Sample message 2'
-    msg.set_payload('This is the second body.\n')
-    mbox.add(msg)
+    mbox_msg = mailbox.mboxMessage(msg)
+    mbox_msg.set_payload(quopri.encodestring(bytes(mbox_msg.get_payload(),
+                                                   'utf-8')))
+    mbox.add(mbox_msg)
     mbox.flush()
 finally:
     mbox.unlock()
 
-print(open(mbox_filename, 'r').read())
+msg_read = open(mbox_filename, 'r').read()
+print(type(msg_read))
+# print(open(mbox_filename, 'r').read())
