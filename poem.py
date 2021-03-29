@@ -50,8 +50,17 @@ def parse(page):
     return header, body
 
 
+def test_parse(pg):
+    print('full page:')
+    print(pg)
+    header, body = parse(pg)
+    print(f'header:')
+    print(header)
+    print(f'body:')
+    print(body)
+
 def main():
-    example_email = """
+    example_page = """
     From:       yogi.bear@cartoon.com
     To:         booboo.bear@cartoon.com
     Subject:    this afternoon
@@ -63,10 +72,7 @@ def main():
 
     Yogi
     """
-    print(example_email)
-    header, body = parse(example_email)
-    print(header)
-    print(body)
+    test_parse(example_page)
 
 
 if __name__ == "__main__":
