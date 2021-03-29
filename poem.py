@@ -64,7 +64,7 @@ def parse(page):
     return header, body
 
 
-def test_parse(pg):
+def _test_parse(pg):
     print('full page:')
     print(pg)
     header, body = parse(pg)
@@ -87,7 +87,7 @@ def main():
 
     Yogi
     """
-    test_parse(example_page)
+    _test_parse(example_page)
     example_page = """
     This is an example of a continuation page, which occurs when an email
     extends beyond a page.
@@ -95,7 +95,7 @@ def main():
     Thanks,
     Yogi
     """
-    test_parse(example_page)
+    _test_parse(example_page)
 
 
 if __name__ == "__main__":
