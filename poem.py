@@ -19,25 +19,25 @@ def tokenizer(line):
     return key, value
 
 
-def parse(page):
-    """Parses a string representing a page of an email. Returns a
-       dictionary containng header elements (if exists), rest of page is
-       considered the body."""
+def _find_header(pgarr):
+    """Return location where header begins, 0 if not found."""
     ln = 0
-    header = {}
-    pgarr = page.splitlines()
     lncnt = len(pgarr)
     # find the start of the header
     while ln < HEADER_START_MAX and ln < lncnt:
         lhs, rhs = tokenizer(pgarr[ln])
-        ln += 1
         if lhs.lower() in HEADER_FIELDS:
-            header[lhs] = rhs
             break
-    # parse header, if found
-    while header:
-        nlhs, rhs = tokenizer(pgarr[ln])
         ln += 1
+    else:                   # header not found
+        ln = 0
+    return ln
+
+
+def _parse_header(pgarr, ln):
+    header = {}
+    while True:
+        nlhs, rhs = tokenizer(pgarr[ln])
         if nlhs or rhs:      # header continues
             if nlhs:         # new header component
                 lhs = nlhs
@@ -46,6 +46,20 @@ def parse(page):
                 header[lhs] = header[lhs] + rhs
         else:  # both nlhs or rhs are null - blank line, end of Header
             break
+        ln += 1
+    return header, ln
+
+
+def parse(page):
+    """Parses a string representing a page of an email. Returns a
+       dictionary containng header elements (if exists), rest of page is
+       considered the body."""
+    pgarr = page.splitlines()
+    header = {}
+    ln = _find_header(pgarr)
+    # parse header, if found
+    if ln:               # header found, parse it
+        header, ln = _parse_header(pgarr, ln)
     body = '\n'.join(pgarr[ln::])
     return header, body
 
@@ -59,6 +73,7 @@ def test_parse(pg):
     print(f'body:')
     print(body)
 
+
 def main():
     example_page = """
     From:       yogi.bear@cartoon.com
@@ -70,6 +85,14 @@ def main():
 
     Let's go see the ranger this afternoon at 2 o'clock, ok?
 
+    Yogi
+    """
+    test_parse(example_page)
+    example_page = """
+    This is an example of a continuation page, which occurs when an email
+    extends beyond a page.
+
+    Thanks,
     Yogi
     """
     test_parse(example_page)
