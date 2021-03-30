@@ -11,9 +11,9 @@ class PDFEmailHeader:
     to:             list[str]
     subject:        str
     date:           str
-    cc:             list[str] = field(default_factory=lambda: [])
-    bcc:            list[str] = field(default_factory=lambda: [])
-    attachments:    list[str] = field(default_factory=lambda: [])
+    cc:             list[str] = field(default_factory=list)
+    bcc:            list[str] = field(default_factory=list)
+    attachments:    list[str] = field(default_factory=list)
 
 
 def main():
