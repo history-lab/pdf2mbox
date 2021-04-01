@@ -3,7 +3,14 @@ from typing import ClassVar
 
 
 @dataclass
-class PDFEmailHeader:
+class Parser:
+    field_tokens:   ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
+                                           'subject', 'date', 'attachments']
+    max_start:      ClassVar[int] = 12
+
+
+@dataclass
+class Header:
     from_email:     str
     to:             list[str]
     subject:        str
@@ -11,17 +18,24 @@ class PDFEmailHeader:
     cc:             list[str] = field(default_factory=list)
     bcc:            list[str] = field(default_factory=list)
     attachments:    list[str] = field(default_factory=list)
-    # constants used in parsing
-    field_tokens:   ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
-                                           'subject', 'date', 'attachments']
-    max_start:      ClassVar[int] = 12
+
+
+@dataclass
+class Email:
+    header:         Header
+    body:           str
 
 
 def main():
-    e1 = PDFEmailHeader('yogi.bear@cartoon.com',
-                        ['booboo.bear@cartoon.com'],
-                        'this afternoon',
-                        'Thursday, March 25, 2021 06:16:10 AM')
+    e1 = Email(header=Header(from_email='yogi.bear@cartoon.com',
+                             to=['booboo.bear@cartoon.com'],
+                             subject='this afternoon',
+                             date='Thursday, March 25, 2021 06:16:10 AM'),
+               body="""Hi Booboo:
+
+               Let's go see the ranger this afternoon at 2 o'clock, ok?
+
+               Yogi""")
     print(e1)
 
 
