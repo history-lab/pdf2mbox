@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from typing import ClassVar
+
 
 # Used for parsing
 HEADER_FIELDS = ['from', 'to', 'cc', 'bcc', 'subject', 'date', 'attachments']
@@ -14,6 +16,9 @@ class PDFEmailHeader:
     cc:             list[str] = field(default_factory=list)
     bcc:            list[str] = field(default_factory=list)
     attachments:    list[str] = field(default_factory=list)
+    # constants used in parsing
+    field_tokens:   ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
+                                           'subject', 'date', 'attachments']
 
 
 def main():
