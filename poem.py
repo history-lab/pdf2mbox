@@ -3,8 +3,8 @@
   Module contains functions for parsing text strings that
   represent pages in PDF files containing e-mails.
 """
-HEADER_FIELDS = ['from', 'to', 'cc', 'bcc', 'subject', 'date', 'attachments']
-HEADER_START_MAX = 12
+
+import pdfemail
 
 
 def tokenizer(line):
@@ -24,9 +24,9 @@ def _find_header(pgarr):
     ln = 0
     lncnt = len(pgarr)
     # find the start of the header
-    while ln < HEADER_START_MAX and ln < lncnt:
+    while ln < pdfemail.Parser.max_start and ln < lncnt:
         lhs, rhs = tokenizer(pgarr[ln])
-        if lhs.lower() in HEADER_FIELDS:
+        if lhs.lower() in pdfemail.Parser.field_tokens:
             break
         ln += 1
     else:                   # header not found
@@ -38,7 +38,7 @@ def _parse_header(pgarr, ln):
     header = {}
     while True:
         nlhs, rhs = tokenizer(pgarr[ln])
-        if nlhs or rhs:      # header continues
+        if nlhs or rhs:
             if nlhs:         # new header component
                 lhs = nlhs
                 header[lhs] = rhs
@@ -68,9 +68,9 @@ def _test_parse(pg):
     print('full page:')
     print(pg)
     header, body = parse(pg)
-    print(f'header:')
+    print('header:')
     print(header)
-    print(f'body:')
+    print('body:')
     print(body)
 
 
