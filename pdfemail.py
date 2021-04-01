@@ -2,11 +2,6 @@ from dataclasses import dataclass, field
 from typing import ClassVar
 
 
-# Used for parsing
-HEADER_FIELDS = ['from', 'to', 'cc', 'bcc', 'subject', 'date', 'attachments']
-HEADER_START_MAX = 12
-
-
 @dataclass
 class PDFEmailHeader:
     from_email:     str
@@ -19,6 +14,7 @@ class PDFEmailHeader:
     # constants used in parsing
     field_tokens:   ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
                                            'subject', 'date', 'attachments']
+    max_start:      ClassVar[int] = 12
 
 
 def main():
