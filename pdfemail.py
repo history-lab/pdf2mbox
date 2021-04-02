@@ -3,7 +3,7 @@ from typing import ClassVar
 
 
 @dataclass
-class Parser:
+class HeaderParser:
     field_tokens:   ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
                                            'subject', 'date', 'attachments']
     max_start:      ClassVar[int] = 12

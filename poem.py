@@ -24,9 +24,9 @@ def _find_header(pgarr):
     ln = 0
     lncnt = len(pgarr)
     # find the start of the header
-    while ln < pdfemail.Parser.max_start and ln < lncnt:
+    while ln < pdfemail.HeaderParser.max_start and ln < lncnt:
         lhs, rhs = tokenizer(pgarr[ln])
-        if lhs.lower() in pdfemail.Parser.field_tokens:
+        if lhs.lower() in pdfemail.HeaderParser.field_tokens:
             break
         ln += 1
     else:                   # header not found
@@ -51,6 +51,20 @@ def _parse_header(pgarr, ln):
 
 
 def parse(page):
+    """Parses a string representing a page of an email. Returns a
+       dictionary containng header elements (if exists), rest of page is
+       considered the body."""
+    pgarr = page.splitlines()
+    header = {}
+    ln = _find_header(pgarr)
+    # parse header, if found
+    if ln:               # header found, parse it
+        header, ln = _parse_header(pgarr, ln)
+    body = '\n'.join(pgarr[ln::])
+    return header, body
+
+
+def parse2(page):
     """Parses a string representing a page of an email. Returns a
        dictionary containng header elements (if exists), rest of page is
        considered the body."""
