@@ -7,6 +7,14 @@ class HeaderParser:
     field_tokens:   ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
                                            'subject', 'date', 'attachments']
     max_start:      ClassVar[int] = 12
+    header:         {}
+
+    def tokenizer(self, line):
+        """Tokenizes a string if it represents an element of an email header"""
+        line = line.strip()
+        loc = line.find(':')
+        if loc != -1:           # found add to header dictionary
+            self.header[line[:loc].lower()] = line[loc+1:].strip()
 
 
 @dataclass
