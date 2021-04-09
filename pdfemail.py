@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import ClassVar
 from collections import defaultdict
+from mailbox import mbox, mboxMessage
+from quopri import encodestring
 
 
 @dataclass
@@ -27,6 +29,21 @@ class Email(Page):
     pdf_filename:   str = field(default_factory=str)
     page_number:    int = field(default_factory=int)
     page_count:     int = field(default_factory=int)
+
+    def add_mbox(mbox_file):
+        pass
+        msg = mboxMessage()
+        # set values
+        tmbox = mbox(mbox_file)
+        tmbox.lock()
+        try:
+            mbox_msg = mboxMessage(msg)
+            mbox_msg.set_payload(encodestring(bytes(mbox_msg.get_payload(),
+                                                    'utf-8')))
+            mbox.add(mbox_msg)
+            mbox.flush()
+        finally:
+            mbox.unlock()
 
 
 @dataclass
@@ -56,7 +73,6 @@ class HeaderParser:
     def _tokenize(self):
         """Tokenizes a string if it represents an element of an email header"""
         line = self.pgarr[self._ln].strip()
-        print('in tokenize: {line}')
         loc = line.find(':')
         if loc != -1:           # found add to header dictionary
             self._token = line[:loc].lower()
@@ -81,7 +97,7 @@ class HeaderParser:
 
     def _convert_obj(self):
         """Create a PDFEmailHeader object based on the contents of the
-        self.header dictionary. If required fields are missing, it raises
+        self._header dictionary. If required fields are missing, it raises
         warnings and returns None."""
         return Header(from_email=self._header['from'],
                       to=self._header['to'],
@@ -94,24 +110,22 @@ class HeaderParser:
                       end_ln=self._header['end_ln'])
 
     def parse(self):
-        self._lncnt = len(self.pgarr)
-        # find the start of the header
-        if self._find_start():
-            print('find start returned true')
-            while True:
-                self._tokenize()
-                if not self._next_line():
+        self._lncnt = len(self.pgarr)         # lines in page
+        if self._find_start():                # find the start of the header
+            while True:                       # while in header
+                self._tokenize()              # process header line
+                if not self._next_line():     # end of header
                     break
             self._header['end_ln'] = self._ln
-            header_obj = self._convert_obj()
-            print(f'header_obj: {type(header_obj)}')
+            header_obj = self._convert_obj()  # convert _header to object
             return header_obj
-        else:          # No header
+        else:                                 # no header
             return None
 
 
 def parse(page):
-    """Parses a string representing a PDF page. If it detects an email"""
+    """Parses a string representing a PDF page. returns either a Page object or
+    an Email object depending on whether the page has an email header."""
     pgarr = page.splitlines()
     hp = HeaderParser(pgarr)
     header = hp.parse()
