@@ -3,10 +3,7 @@ import os.path
 import sys
 import magic
 import pdftotext
-import quopri
-import email
-import email.utils
-import mailbox
+import pdfemail
 
 # CLI
 parser = argparse.ArgumentParser(
@@ -18,7 +15,7 @@ cl_args = parser.parse_args()
 pdf_filename = cl_args.pdf_file
 mbox_filename = cl_args.mbox_file
 
-# PDF file handling
+# File handling
 if not os.path.exists(pdf_filename):
     sys.exit(f'error: {pdf_filename} does not exist.')
 if not os.path.isfile(pdf_filename):
@@ -26,34 +23,32 @@ if not os.path.isfile(pdf_filename):
 if magic.from_file(pdf_filename, mime=True) != 'application/pdf':
     sys.exit(f'error: {pdf_filename} is not a PDF file.')
 
-# Extract text from pdf
-with open(pdf_filename, 'rb') as f:
-    pdf = pdftotext.PDF(f)
 
-# pdf_page = io.StringIO()
-pdf_page = pdf[0]
+def convert(pdf_filename, mbox_filename):
+    with open(pdf_filename, 'rb') as f:
+        pdf = pdftotext.PDF(f)
+        pgcnt = len(pdf)
+        print(f'PDF page count: {pgcnt}')
+        i = 0
+        current_email = None
+        while i < pgcnt:
+            page = pdfemail.parse(pdf[i])
+            i += 1
+            if isinstance(page, pdfemail.Email):
+                if current_email:
+                    current_email.add_mbox(mbox_filename)
+                current_email = page
+                current_email.pdf_filename = pdf_filename
+                current_email.page_number = i
+                current_email.page_count = 1
+            elif (isinstance(page, pdfemail.Page) and current_email):
+                current_email.body += page.body
+                current_email.page_count += 1
+        if current_email:   # write last email
+            current_email.add_mbox(mbox_filename)
+        else:
+            print('Warning: No emails found in PDF.')
 
-# print(pdf_page)
-# print(type(pdf_page))
-msg = email.message_from_string(pdf_page)
-i = 0
-for k, v in msg.items():
-    i += 1
-    print(f'{i}. msg[{k}] {v}')
-print(msg.get_payload())
-print(f'{pdf_filename} {mbox_filename}')
 
-mbox = mailbox.mbox(mbox_filename)
-mbox.lock()
-try:
-    mbox_msg = mailbox.mboxMessage(msg)
-    mbox_msg.set_payload(quopri.encodestring(bytes(mbox_msg.get_payload(),
-                                                   'utf-8')))
-    mbox.add(mbox_msg)
-    mbox.flush()
-finally:
-    mbox.unlock()
-
-msg_read = open(mbox_filename, 'r').read()
-print(type(msg_read))
-# print(open(mbox_filename, 'r').read())
+if __name__ == "__main__":
+    convert(pdf_filename, mbox_filename)
