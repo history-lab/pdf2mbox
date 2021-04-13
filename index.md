@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+# pdf2mbox
+pdf2mbox is a command-line utility and Python package for converting emails in a PDF file into emails in an MBOX file. 
 
-You can use the [editor on GitHub](https://github.com/history-lab/pdf2mbox/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+pdf2mbox is in the early stages of development (i.e., pre-release). To monitor progress, please watch this repo.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## motivation
+Archivists and others involved in creating email archives for historical and research purposes are the intended users of pdf2mbox. 
 
-### Markdown
+Many emails released under Freedom of Information Act (FOIA) requests are in PDF format with a single PDF often containing hundreds of emails. Email archiving systems for historical research and preservation, such as ePADD and DArcMail, are natural destinations for FOIAed emails. Unfortunately, these systems don't currently accept PDFs as input, but they take MBOX as input. Thus, pdf2mbox will enable PDF emails to be processed by these solutions. Users will first convert email PDFs to MBOX using pdf2mbox as a pre-processing step.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Information is lost when exporting an email in PDF format from an email system. However, in most cases, we believe enough information is retained in an email PDF to create a proxy of the original email acceptable for use by historians and other researchers.
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## usage
+pdf2mbox is open source and distributed under the MIT license. Developed in Python, pdf2mbox will be available as a PyPI package and installable via `pip install pdf2mbox`. Here is how to run pdf2mbox as a command-line utility: 
 ```
+% python pdf2mbox.py -h
+usage: pdf2mbox.py [-h] [--version] pdf_file mbox_file
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Generates an mbox from a PDF containing emails
 
-### Jekyll Themes
+positional arguments:
+  pdf_file    PDF file provided as input
+  mbox_file   Mbox file generated as output
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/history-lab/pdf2mbox/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+optional arguments:
+  -h, --help  show this help message and exit
+  --version   show program's version number and exit
+```
+  
+## use cases
+1. conversion of a single PDF
+2. conversion of a directory of PDFs 
 
-### Support or Contact
+## who's doing the development
+Columbia University's [History Lab](http://history-lab.org) is developing pdf2mbox as part of its **Creating Email Archives from PDFs: The Covid-19 Corpus** project.  The project is also developing an extensive collection of FOIAed emails on the initial governmental and public health response to the Covid-19 pandemic in the United States. This email collection will be accessible via: 
+- a website interface with search and analytical tools
+- an application programming interface (API)
+- item-level catalog entries integrated into Columbia University Libraries' Government Information Portal
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+The project is funded in part by The Mellon Foundation's "Email Archives: Building Capacity and Community" program.
