@@ -5,7 +5,7 @@
 ## motivation
 Archivists and others involved in creating email archives for historical and research purposes are the intended users of pdf2mbox. 
 
-Many emails released under Freedom of Information Act (FOIA) requests are in PDF format with a single PDF often containing hundreds of emails. Email archiving systems for historical research and preservation, such as [ePADD](https://epadd.stanford.edu/) and [DArcMail](https://siarchives.si.edu/what-we-do/digital-curation/email-preservation-darcmail), are natural destinations for FOIAed emails. Unfortunately, these systems don't currently accept PDFs as input, but they take MBOX as input. Thus, pdf2mbox will enable PDF emails to be processed by these solutions. Users will first convert email PDFs to MBOX using pdf2mbox as a pre-processing step.
+Many emails released under Freedom of Information Act (FOIA) requests are in PDF format with a single PDF often containing hundreds of emails. Email archiving systems for historical research and preservation, such as [ePADD](https://epadd.stanford.edu/) and [DArcMail](https://siarchives.si.edu/what-we-do/digital-curation/email-preservation-darcmail), are natural destinations for FOIAed emails. However, these systems don't currently accept PDFs as input, but they take MBOX as input. By using pdf2mbox as a pre-processing step, users will be able to archive PDF emails in these systems.
 
 Information is lost when exporting an email in PDF format from an email system. However, in most cases, we believe enough information is retained in an email PDF to create a proxy of the original email acceptable for use by historians and other researchers.
 
@@ -31,9 +31,9 @@ optional arguments:
 2. conversion of a directory of PDFs 
 
 ## about us
-Columbia University's [History Lab](http://history-lab.org) is developing pdf2mbox as part of its **Creating Email Archives from PDFs: The Covid-19 Corpus** project.  The project is also developing an extensive collection of FOIAed emails on the initial governmental and public health response to the Covid-19 pandemic in the United States. This email collection will be accessible via: 
+Columbia University's [History Lab](http://history-lab.org) is developing pdf2mbox as part of its **Creating Email Archives from PDFs: The Covid-19 Corpus** project.  The project will also collect an extensive corpus of FOIAed emails on the initial governmental and public health response to the Covid-19 pandemic in the United States. This email collection will be made accessible via: 
 - a website interface with search and analytical tools
 - an application programming interface (API)
-- item-level catalog entries integrated into Columbia University Libraries' Government Information Portal
+- Columbia University Libraries' Government Information Portal
 
 The project is funded in part by The Mellon Foundation's "Email Archives: Building Capacity and Community" program.
