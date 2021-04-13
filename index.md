@@ -1,4 +1,6 @@
-We're at a pre-release stage of development. You can monitor progress by watching [the repo](https://github.com/history-lab/pdf2mbox).
+![Image](pdf2mbox_diagram.png)
+
+*Note:* pdf2mbox is in a pre-release stage of development. You can monitor progress by watching [the repo](https://github.com/history-lab/pdf2mbox).
 
 ## motivation
 Archivists and others involved in creating email archives for historical and research purposes are the intended users of pdf2mbox. 
