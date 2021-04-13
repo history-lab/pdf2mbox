@@ -1,8 +1,3 @@
-# pdf2mbox
-pdf2mbox is a command-line utility and Python package for converting emails in a PDF file into emails in an MBOX file. 
-
-pdf2mbox is in the early stages of development (i.e., pre-release). To monitor progress, please watch this repo.
-
 ## motivation
 Archivists and others involved in creating email archives for historical and research purposes are the intended users of pdf2mbox. 
 
@@ -31,7 +26,7 @@ optional arguments:
 1. conversion of a single PDF
 2. conversion of a directory of PDFs 
 
-## who's doing the development
+## about us
 Columbia University's [History Lab](http://history-lab.org) is developing pdf2mbox as part of its **Creating Email Archives from PDFs: The Covid-19 Corpus** project.  The project is also developing an extensive collection of FOIAed emails on the initial governmental and public health response to the Covid-19 pandemic in the United States. This email collection will be accessible via: 
 - a website interface with search and analytical tools
 - an application programming interface (API)
