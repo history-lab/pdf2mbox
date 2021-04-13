@@ -1,2 +1,4 @@
 # pdf2mbox
-Exploratory programming on pdfs, email parsing and mbox generation. This repo will evolve into the official History Lab repo for the Mellon grant. 
+A command-line utility and Python package for converting emails in a PDF file into emails in an MBOX file.
+
+We're at the early stages of development (i.e., pre-release). You can monitor progress by watching the repo.
