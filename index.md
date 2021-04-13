@@ -52,7 +52,7 @@ done
 We want to hear about it, so please raise it as an [issue](https://github.com/history-lab/pdf2mbox/issues).
 
 ## about us
-Columbia University's [History Lab](http://history-lab.org) is developing pdf2mbox as part of its **Creating Email Archives from PDFs: The Covid-19 Corpus** project.  The project will also create an extensive collection of FOIAed emails on the initial governmental and public health response to the Covid-19 pandemic in the United States. This email collection will be made accessible via: 
+Columbia University's [History Lab](http://history-lab.org) is developing pdf2mbox as part of its **Creating Email Archives from PDFs: The Covid-19 Corpus** project.  The project will also add a new collection to the Freedom of Information Archive (FOIArchive) that contains FOIAed emails on the initial governmental and public health response to the Covid-19 pandemic in the United States. This email collection will be made accessible via: 
 - a website interface with search and analytical tools
 - an application programming interface (API)
 - Columbia University Libraries' Government Information Portal
