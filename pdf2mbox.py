@@ -27,27 +27,27 @@ if magic.from_file(pdf_filename, mime=True) != 'application/pdf':
 def convert(pdf_filename, mbox_filename):
     with open(pdf_filename, 'rb') as f:
         pdf = pdftotext.PDF(f)
-        pgcnt = len(pdf)
-        print(f'PDF page count: {pgcnt}')
-        i = 0
-        current_email = None
-        while i < pgcnt:
-            page = pdfemail.parse(pdf[i])
-            i += 1
-            if isinstance(page, pdfemail.Email):
-                if current_email:
-                    current_email.add_mbox(mbox_filename)
-                current_email = page
-                current_email.pdf_filename = pdf_filename
-                current_email.page_number = i
-                current_email.page_count = 1
-            elif (isinstance(page, pdfemail.Page) and current_email):
-                current_email.body += page.body
-                current_email.page_count += 1
-        if current_email:   # write last email
-            current_email.add_mbox(mbox_filename)
-        else:
-            print('Warning: No emails found in PDF.')
+    pgcnt = len(pdf)
+    print(f'PDF page count: {pgcnt}')
+    i = 0
+    current_email = None
+    while i < pgcnt:
+        page = pdfemail.parse(pdf[i])
+        i += 1
+        if isinstance(page, pdfemail.Email):
+            if current_email:
+                current_email.add_mbox(mbox_filename)
+            current_email = page
+            current_email.pdf_filename = pdf_filename
+            current_email.page_number = i
+            current_email.page_count = 1
+        elif (isinstance(page, pdfemail.Page) and current_email):
+            current_email.body += page.body
+            current_email.page_count += 1
+    if current_email:   # write last email
+        current_email.add_mbox(mbox_filename)
+    else:
+        print('Warning: No emails found in PDF.')
 
 
 if __name__ == "__main__":
