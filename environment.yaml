@@ -5,6 +5,9 @@ channels:
 dependencies:
   - ca-certificates=2020.12.5=h033912b_0
   - certifi=2020.12.5=py39h6e9494a_1
+  - cffi=1.14.5=py39h319c39b_0
+  - chardet=4.0.0=py39h6e9494a_1
+  - cryptography=3.4.4=py39h36ea649_0
   - flake8=3.8.4=py_0
   - importlib-metadata=2.0.0=py_1
   - libcxx=10.0.0=1
@@ -14,14 +17,17 @@ dependencies:
   - mccabe=0.6.1=py39hecd8cb5_1
   - ncurses=6.2=h0a44026_1
   - openssl=1.1.1j=hbcf498f_0
+  - pdfminer.six=20201018=py_2
   - pip=20.3.3=py39hecd8cb5_0
   - pycodestyle=2.6.0=pyhd3eb1b0_0
+  - pycparser=2.20=pyh9f0ad1d_2
   - pyflakes=2.2.0=pyhd3eb1b0_0
   - python=3.9.1=h88f2d9e_2
   - python-magic=0.4.18=py39h6e9494a_0
   - python_abi=3.9=1_cp39
   - readline=8.1=h9ed2024_0
   - setuptools=52.0.0=py39hecd8cb5_0
+  - six=1.15.0=pyh9f0ad1d_0
   - sqlite=3.33.0=hffcf06c_0
   - tk=8.6.10=hb0a8c7a_0
   - tzdata=2020f=h52ac0ba_0
