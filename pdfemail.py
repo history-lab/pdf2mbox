@@ -82,6 +82,7 @@ class HeaderParser:
                 self._header[self._token] = line[loc+1:].strip()
             else:
                 print(f'Warning - unprocessed header element: {self._token}')
+                print(line)
         elif self._token in self._FIELD_TOKENS:
             # existing token value carried onto next line
             self._header[self._token] += line
