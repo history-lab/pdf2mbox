@@ -51,7 +51,8 @@ class Email(Page):
 class HeaderParser:
     pgarr:          list[str]
     _FIELD_TOKENS:  ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
-                                           'subject', 'date', 'attachments']
+                                           'subject', 'date', 'sent',
+                                           'attachments']
     _MAX_START:     ClassVar[int] = 12
     _header:        defaultdict(str) = field(
         default_factory=lambda: defaultdict(str))
@@ -100,6 +101,8 @@ class HeaderParser:
         """Create a PDFEmailHeader object based on the contents of the
         self._header dictionary. If required fields are missing, it raises
         warnings and returns None."""
+        if not self._header['date']:
+            self._header['date'] = self._header['sent']
         return Header(from_email=self._header['from'],
                       to=self._header['to'],
                       cc=self._header['cc'],
