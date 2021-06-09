@@ -14,6 +14,7 @@ class Header:
     cc:             list[str] = field(default_factory=list)
     bcc:            list[str] = field(default_factory=list)
     attachments:    list[str] = field(default_factory=list)
+    importance:     str = field(default_factory=str)
     begin_ln:       int = field(default_factory=int)   # start line number
     end_ln:         int = field(default_factory=int)   # finish line number
 
@@ -52,7 +53,7 @@ class HeaderParser:
     pgarr:          list[str]
     _FIELD_TOKENS:  ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
                                            'subject', 'date', 'sent',
-                                           'attachments']
+                                           'importance', 'attachments']
     _MAX_START:     ClassVar[int] = 12
     _header:        defaultdict(str) = field(
         default_factory=lambda: defaultdict(str))
@@ -111,6 +112,7 @@ class HeaderParser:
                       subject=self._header['subject'],
                       date=self._header['date'],
                       attachments=self._header['attachments'],
+                      importance=self._header['importance'],
                       begin_ln=self._header['begin_ln'],
                       end_ln=self._header['end_ln'])
 
