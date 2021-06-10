@@ -78,7 +78,8 @@ class HeaderParser:
         line = self.pgarr[self._ln].strip()
         loc = line.find(':')
         if loc != -1:           # found add to header dictionary
-            self._token = line[:loc].lower()
+            # fix erronous OCR spaces
+            self._token = line[:loc].lower().replace(' ', '')
             if self._token in self._FIELD_TOKENS:
                 self._header[self._token] = line[loc+1:].strip()
             else:
