@@ -55,16 +55,17 @@ class HeaderParser:
                                            'subject', 'date', 'sent',
                                            'importance', 'attachments']
     _MAX_START:     ClassVar[int] = 12
+    _MAX_COL_COLON: ClassVar[int] = 14        # rt most column for header colon
     _header:        defaultdict(str) = field(
         default_factory=lambda: defaultdict(str))
-    _ln:            int = 0                          # line position in page
+    _ln:            int = 0                           # line position in page
     _token:         str = field(default_factory=str)  # last field token
     _lncnt:         int = 0                           # len(pgarr)
 
     def _find_start(self):
         self._ln = 0
         while (self._ln < self._MAX_START and self._ln < self._lncnt and
-               self.pgarr[self._ln].find(':') == -1):
+               self.pgarr[self._ln][:self._MAX_COL_COLON].find(':') == -1):
             self._ln += 1
             # print(f'in find start loop - ln: {self._ln}')
         if self._ln == self._MAX_START or self._ln == self._lncnt:
@@ -78,7 +79,7 @@ class HeaderParser:
         line = self.pgarr[self._ln].strip()
         loc = line.find(':')
         if loc != -1:           # found add to header dictionary
-            # fix erronous OCR spaces
+            # fix erroneous OCR spaces
             self._token = line[:loc].lower().replace(' ', '')
             if self._token in self._FIELD_TOKENS:
                 self._header[self._token] = line[loc+1:].strip()
