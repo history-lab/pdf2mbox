@@ -54,7 +54,7 @@ class HeaderParser:
     _FIELD_TOKENS:  ClassVar[list[str]] = ['from', 'to', 'cc', 'bcc',
                                            'subject', 'date', 'sent',
                                            'importance', 'attachments']
-    _MAX_START:     ClassVar[int] = 12
+    _MAX_START_LN:     ClassVar[int] = 12        # max start line for header
     _MAX_COL_COLON: ClassVar[int] = 14        # rt most column for header colon
     _header:        defaultdict(str) = field(
         default_factory=lambda: defaultdict(str))
@@ -64,11 +64,11 @@ class HeaderParser:
 
     def _find_start(self):
         self._ln = 0
-        while (self._ln < self._MAX_START and self._ln < self._lncnt and
+        while (self._ln < self._MAX_START_LN and self._ln < self._lncnt and
                self.pgarr[self._ln][:self._MAX_COL_COLON].find(':') == -1):
             self._ln += 1
             # print(f'in find start loop - ln: {self._ln}')
-        if self._ln == self._MAX_START or self._ln == self._lncnt:
+        if self._ln == self._MAX_START_LN or self._ln == self._lncnt:
             return False    # Reached max header start position or page end
         else:
             self._header['begin_ln'] = self._ln
