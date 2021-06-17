@@ -47,6 +47,9 @@ class Email(Page):
         finally:
             mbox.unlock()
 
+    def add_csv(self, csv_file):
+
+
 
 @dataclass
 class HeaderParser:
@@ -62,25 +65,31 @@ class HeaderParser:
     _token:         str = field(default_factory=str)  # last field token
     _lncnt:         int = 0                           # len(pgarr)
 
+    def _get_token(self, str):
+        # fix erroneous OCR spaces
+        return str.lower().replace(' ', '')
+
     def _find_start(self):
         self._ln = 0
-        while (self._ln < self._MAX_START_LN and self._ln < self._lncnt and
-               self.pgarr[self._ln][:self._MAX_COL_COLON].find(':') == -1):
+        while True:
+            if self._ln == self._MAX_START_LN:  # reached _MAX_START_LN
+                return False
+            if self._ln == self._lncnt:         # reached end of page
+                return False
+            loc = self.pgarr[self._ln][:self._MAX_COL_COLON].find(':')
+            if loc != -1:
+                self._token = self._get_token(self.pgarr[self._ln][:loc])
+                if self._token in self._FIELD_TOKENS:
+                    return True     # Found the start of header
             self._ln += 1
-            # print(f'in find start loop - ln: {self._ln}')
-        if self._ln == self._MAX_START_LN or self._ln == self._lncnt:
-            return False    # Reached max header start position or page end
-        else:
-            self._header['begin_ln'] = self._ln
-            return True     # Found the start of header
 
     def _tokenize(self):
         """Tokenizes a string if it represents an element of an email header"""
         line = self.pgarr[self._ln].strip()
         loc = line.find(':')
         if loc != -1:           # found add to header dictionary
-            # fix erroneous OCR spaces
-            self._token = line[:loc].lower().replace(' ', '')
+            # self._token = line[:loc].lower().replace(' ', '')
+            self._token = self._get_token(line[:loc])
             if self._token in self._FIELD_TOKENS:
                 self._header[self._token] = line[loc+1:].strip()
             else:
@@ -164,6 +173,8 @@ def main():
     print(type(pg))
     print(pg)
     example_page = """
+    Up next:
+
     This is an example of a continuation page, which occurs when an email
     extends beyond a page.
 
