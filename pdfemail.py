@@ -3,6 +3,7 @@ from typing import ClassVar
 from collections import defaultdict
 from mailbox import mbox, mboxMessage
 from quopri import encodestring
+import csv
 
 
 @dataclass
@@ -47,8 +48,9 @@ class Email(Page):
         finally:
             mbox.unlock()
 
-    def add_csv(self, csv_file):
-
+    def add_csv(self, email_writer):
+        return
+        # email_writer.writerow()
 
 
 @dataclass
