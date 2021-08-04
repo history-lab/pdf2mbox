@@ -1,5 +1,7 @@
 # added by Ben
 data/
+test/
+env.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

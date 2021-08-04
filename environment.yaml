@@ -3,36 +3,43 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - ca-certificates=2020.12.5=h033912b_0
-  - certifi=2020.12.5=py39h6e9494a_1
-  - cffi=1.14.5=py39h319c39b_0
-  - chardet=4.0.0=py39h6e9494a_1
-  - cryptography=3.4.4=py39h36ea649_0
+  - ca-certificates=2021.7.5=hecd8cb5_1
+  - certifi=2021.5.30=py39hecd8cb5_0
+  - cffi=1.14.6=py39h2125817_0
+  - chardet=4.0.0=py39hecd8cb5_1003
+  - cryptography=3.4.7=py39h2fd3fbb_0
   - flake8=3.8.4=py_0
-  - importlib-metadata=2.0.0=py_1
+  - importlib-metadata=3.10.0=py39hecd8cb5_0
+  - krb5=1.19.2=hcd88c3b_0
   - libcxx=10.0.0=1
-  - libedit=3.1.20191231=h1de35cc_1
+  - libedit=3.1.20210216=h9ed2024_1
   - libffi=3.3=hb1e8313_2
-  - libmagic=5.39=haaf19a9_0
+  - libmagic=5.36=h9ed2024_2
+  - libpq=12.2=h1b4eb34_1
   - mccabe=0.6.1=py39hecd8cb5_1
   - ncurses=6.2=h0a44026_1
-  - openssl=1.1.1j=hbcf498f_0
+  - openssl=1.1.1k=h9ed2024_0
   - pdfminer.six=20201018=py_2
-  - pip=20.3.3=py39hecd8cb5_0
+  - pip=21.2.2=py39hecd8cb5_0
+  - psycopg2=2.8.6=py39hbcfaee0_1
   - pycodestyle=2.6.0=pyhd3eb1b0_0
-  - pycparser=2.20=pyh9f0ad1d_2
+  - pycparser=2.20=py_2
   - pyflakes=2.2.0=pyhd3eb1b0_0
   - python=3.9.1=h88f2d9e_2
   - python-magic=0.4.18=py39h6e9494a_0
   - python_abi=3.9=1_cp39
   - readline=8.1=h9ed2024_0
   - setuptools=52.0.0=py39hecd8cb5_0
-  - six=1.15.0=pyh9f0ad1d_0
-  - sqlite=3.33.0=hffcf06c_0
+  - sqlite=3.36.0=hce871da_0
   - tk=8.6.10=hb0a8c7a_0
-  - tzdata=2020f=h52ac0ba_0
+  - tzdata=2021a=h52ac0ba_0
   - wheel=0.36.2=pyhd3eb1b0_0
   - xz=5.2.5=h1de35cc_0
-  - zipp=3.4.0=pyhd3eb1b0_0
+  - zipp=3.5.0=pyhd3eb1b0_0
   - zlib=1.2.11=h1de35cc_3
+  - pip:
+    - aiosql==3.3.1
+    - contextlib2==21.6.0
+    - pdftotext==2.1.5
+    - typing-extensions==3.10.0.0
 prefix: /Users/benjaminlis/anaconda3/envs/pdf2mbox
