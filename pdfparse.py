@@ -1,10 +1,9 @@
 import pgparse
 import pdftotext
 
-emails = []
-
 
 def parse(pdf_filename):
+    emails = []
     with open(pdf_filename, 'rb') as f:
         pdf = pdftotext.PDF(f)
     pgcnt = len(pdf)
@@ -16,7 +15,7 @@ def parse(pdf_filename):
         i += 1
         if isinstance(page, pgparse.Email):
             if current_email:
-                emails.add(current_email)
+                emails.append(current_email)
             current_email = page
             current_email.pdf_filename = pdf_filename
             current_email.page_number = i
@@ -25,6 +24,8 @@ def parse(pdf_filename):
             current_email.body += page.body
             current_email.page_count += 1
     if current_email:   # write last email
-        emails.add(current_email)
+        emails.append(current_email)
     else:
         print('Warning: No emails found in PDF.')
+        return
+    return emails
