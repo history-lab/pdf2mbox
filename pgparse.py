@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import ClassVar
 from collections import defaultdict
+from os.path import basename
 
 
 @dataclass
@@ -28,6 +29,13 @@ class Email(Page):
     pdf_filename:   str = field(default_factory=str)
     page_number:    int = field(default_factory=int)
     page_count:     int = field(default_factory=int)
+
+    def get_summary(self):
+        summary = f'{basename(self.pdf_filename)}: ' \
+                  f'{self.page_number}, {self.page_count}; ' \
+                  f'{self.header.subject};' \
+                  f'{self.header.from_email}; {self.header.to}'
+        return summary
 
 
 @dataclass
