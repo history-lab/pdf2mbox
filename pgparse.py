@@ -16,6 +16,7 @@ class Header:
     importance:     str = field(default_factory=str)
     begin_ln:       int = field(default_factory=int)   # start line number
     end_ln:         int = field(default_factory=int)   # finish line number
+    unprocessed:    list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -80,8 +81,13 @@ class HeaderParser:
             if self._token in self._FIELD_TOKENS:
                 self._header[self._token] = line[loc+1:].strip()
             else:
-                print(f'Warning - unprocessed header element: {self._token}')
-                print(line)
+                if self._header['unprocessed']:
+                    self._header['unproccessed'] = \
+                     self._header['unprocessed'].append(line)
+                else:
+                    self._header['unprocessed'] = [line]
+                # print(f'Warning - unprocessed header element: {self._token}')
+                # print(line)
         elif self._token in self._FIELD_TOKENS:
             # existing token value carried onto next line
             self._header[self._token] += line
@@ -112,7 +118,8 @@ class HeaderParser:
                       attachments=self._header['attachments'],
                       importance=self._header['importance'],
                       begin_ln=self._header['begin_ln'],
-                      end_ln=self._header['end_ln'])
+                      end_ln=self._header['end_ln'],
+                      unprocessed=self._header['unprocessed'])
 
     def parse(self):
         self._lncnt = len(self.pgarr)         # lines in page
