@@ -1,9 +1,6 @@
 from dataclasses import dataclass, field
 from typing import ClassVar
 from collections import defaultdict
-from mailbox import mbox, mboxMessage
-from quopri import encodestring
-import csv
 
 
 @dataclass
@@ -31,26 +28,6 @@ class Email(Page):
     pdf_filename:   str = field(default_factory=str)
     page_number:    int = field(default_factory=int)
     page_count:     int = field(default_factory=int)
-
-    def add_mbox(self, mbox_file):
-        print(self)
-        return
-        msg = mboxMessage()
-        # set values
-        tmbox = mbox(mbox_file)
-        tmbox.lock()
-        try:
-            mbox_msg = mboxMessage(msg)
-            mbox_msg.set_payload(encodestring(bytes(mbox_msg.get_payload(),
-                                                    'utf-8')))
-            mbox.add(mbox_msg)
-            mbox.flush()
-        finally:
-            mbox.unlock()
-
-    def add_csv(self, email_writer):
-        return
-        # email_writer.writerow()
 
 
 @dataclass
