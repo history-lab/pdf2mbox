@@ -37,8 +37,8 @@ class PDF:
             elif (isinstance(page, pgparse.Page) and current_email):
                 current_email.body += page.body
                 current_email.page_count += 1
-            if current_email:   # write last email
-                self.emails.append(current_email)
+        if current_email:   # write last email
+            self.emails.append(current_email)
 
     def __pdf2txt(self):
         with open(self.filename, 'rb') as f:
