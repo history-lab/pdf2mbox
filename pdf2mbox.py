@@ -2,8 +2,7 @@ import argparse
 import os.path
 import sys
 import magic
-import pdftotext
-import pdfemail
+import pdfparse
 
 # CLI
 parser = argparse.ArgumentParser(
@@ -28,38 +27,10 @@ if magic.from_file(pdf_filename, mime=True) != 'application/pdf':
 if csv_filename:
     print(csv_filename)
 
+# do that thing
+# emails = pdfparse.parse(pdf_filename)
+pdf = pdfparse.PDF(pdf_filename)
+print(pdf.get_summary())
 
-def output(current_email):
-    current_email.add_mbox(mbox_filename)
-    if csv_filename:
-        print('Adding to CSV, too!')
-
-
-def convert():
-    with open(pdf_filename, 'rb') as f:
-        pdf = pdftotext.PDF(f)
-    pgcnt = len(pdf)
-    print(f'PDF page count: {pgcnt}')
-    i = 0
-    current_email = None
-    while i < pgcnt:
-        page = pdfemail.parse(pdf[i])
-        i += 1
-        if isinstance(page, pdfemail.Email):
-            if current_email:
-                current_email.add_mbox(mbox_filename)
-            current_email = page
-            current_email.pdf_filename = pdf_filename
-            current_email.page_number = i
-            current_email.page_count = 1
-        elif (isinstance(page, pdfemail.Page) and current_email):
-            current_email.body += page.body
-            current_email.page_count += 1
-    if current_email:   # write last email
-        current_email.add_mbox(mbox_filename)
-    else:
-        print('Warning: No emails found in PDF.')
-
-
-if __name__ == "__main__":
-    convert()
+for e in pdf.emails:
+    print(e.get_summary())
