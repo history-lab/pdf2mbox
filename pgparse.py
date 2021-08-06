@@ -32,8 +32,7 @@ class Email(Page):
     page_count:     int = field(default_factory=int)
 
     def get_summary(self):
-        summary = f'{basename(self.pdf_filename)}: ' \
-                  f'{self.page_number}, {self.page_count}; ' \
+        summary = f'{self.page_number}, {self.page_count}; ' \
                   f'{self.header.subject};' \
                   f'{self.header.from_email}; {self.header.to}'
         return summary
