@@ -2,9 +2,11 @@ import pgparse
 import pdftotext
 import magic
 
+NO_FILE_ID_FLAG = -999
+
 
 class PDF:
-    def __init__(self, file_id, pdf_filename):
+    def __init__(self, pdf_filename, file_id=NO_FILE_ID_FLAG):
         self.file_id = file_id
         self.filename = pdf_filename
         self.filetype = ''
@@ -44,10 +46,13 @@ class PDF:
             self.pgcnt = len(self.pdf)
 
     def get_summary(self):
+        if self.file_id == NO_FILE_ID_FLAG:
+            file_id_str = ''
+        else:
+            file_id_str = str(self.file_id) + ') '
         if self.error:
             error_str = ', ' + self.error
         else:
             error_str = self.error
-        return f'{self.file_id}) {self.filename}: ' \
-               f'{self.filetype}; ' \
-               f'{self.pgcnt} pages, {len(self.emails)} emails{error_str}'
+        return f'{file_id_str}{self.filename}: {self.filetype}; ' \
+               f'{self.pgcnt} pages, {len(self.emails)} emails {error_str}'
