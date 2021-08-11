@@ -9,10 +9,10 @@ class PDF:
     def __init__(self, pdf_filename, file_id=NO_FILE_ID_FLAG):
         self.file_id = file_id
         self.filename = pdf_filename
-        self.filetype = ''
+        self.filetype = None
         self.pgcnt = 0
         self.emails = []
-        self.error = ''
+        self.error = None
         # convert to text
         try:
             self.filetype = magic.from_file(self.filename)
