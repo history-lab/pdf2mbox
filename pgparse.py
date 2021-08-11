@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 from typing import ClassVar
 from collections import defaultdict
-from os.path import basename
 
 
 @dataclass
