@@ -29,12 +29,23 @@ class Email(Page):
     pdf_filename:   str = field(default_factory=str)
     page_number:    int = field(default_factory=int)
     page_count:     int = field(default_factory=int)
+    field_names:    ClassVar[list[str]] = \
+        ['page number', 'page count', 'subject', 'date', 'from', 'to', 'cc',
+         'bcc', 'attachments', 'importance', 'url', 'body', 'hdr begin',
+         'hdr end', 'unprocessed']
 
     def get_summary(self):
         summary = f'{self.page_number}, {self.page_count}; ' \
                   f'{self.header.subject};' \
                   f'{self.header.from_email}; {self.header.to}'
         return summary
+
+    def flatten(self):
+        return [self.page_number, self.page_count, self.header.subject,
+                self.header.date, self.header.from_email, self.header.to,
+                self.header.cc, self.header.bcc, self.header.attachments,
+                self.header.importance, None, self.header.begin_ln,
+                self.header.end_ln, self.header.unprocessed]
 
 
 @dataclass
