@@ -29,10 +29,6 @@ class Email(Page):
     pdf_filename:   str = field(default_factory=str)
     page_number:    int = field(default_factory=int)
     page_count:     int = field(default_factory=int)
-    field_names:    ClassVar[list[str]] = \
-        ['page number', 'page count', 'subject', 'date', 'from', 'to', 'cc',
-         'bcc', 'attachments', 'importance', 'url', 'body', 'hdr begin',
-         'hdr end', 'unprocessed']
 
     def get_summary(self):
         summary = f'{self.page_number}, {self.page_count}; ' \
