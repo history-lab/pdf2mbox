@@ -4,6 +4,7 @@ import sys
 import magic
 import pdfparse
 
+
 # CLI
 parser = argparse.ArgumentParser(
             description='Generates an mbox from a PDF containing emails')
@@ -24,13 +25,9 @@ if not os.path.isfile(pdf_filename):
     sys.exit(f'error: {pdf_filename} is not a file.')
 if magic.from_file(pdf_filename, mime=True) != 'application/pdf':
     sys.exit(f'error: {pdf_filename} is not a PDF file.')
-if csv_filename:
-    print(csv_filename)
 
 # do that thing
 # emails = pdfparse.parse(pdf_filename)
 pdf = pdfparse.PDF(pdf_filename)
 print(pdf.get_summary())
-
-for e in pdf.emails:
-    print(e.get_summary())
+pdf.write_csv(csv_filename)
