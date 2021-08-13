@@ -1,11 +1,13 @@
 import pgparse
 import pdftotext
 import magic
+import csv
 
 NO_FILE_ID_FLAG = -999
 
 
 class PDF:
+
     def __init__(self, pdf_filename, file_id=NO_FILE_ID_FLAG):
         self.file_id = file_id
         self.filename = pdf_filename
@@ -53,6 +55,18 @@ class PDF:
         if self.error:
             error_str = ', ' + self.error
         else:
-            error_str = self.error
+            error_str = ''
         return f'{file_id_str}{self.filename}: {self.filetype}; ' \
                f'{self.pgcnt} pages, {len(self.emails)} emails {error_str}'
+
+    def write_csv(self, csv_file):
+        email_fields = ['page number', 'page count', 'subject', 'date', 'from',
+                        'to', 'cc', 'bcc', 'attachments', 'importance', 'url',
+                        'body', 'hdr begin', 'hdr end', 'unprocessed']
+        if self.emails:
+            csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"',
+                                    quoting=csv.QUOTE_MINIMAL)
+
+            csv_writer.writerow(email_fields)
+            for e in self.emails:
+                csv_writer.writerow(e.flatten())
