@@ -9,16 +9,13 @@ conn.autocommit = True
 db = aiosql.from_path("pdf2db.sql", "psycopg2")
 
 
-def add_emails(file_id, email):
-    pass
 
 
 pdfs = db.get_dc19pdf_list(conn)
 for p in pdfs:
     f = pdfparse.PDF(PDFDIR + '/' + p[1], p[0])
     print(f.get_summary())
-    print(type(f.file_id), type(f.pgcnt), type(len(f.emails)),
-          type(f.filetype), type(f.error))
+
     db.upsert_file_stats(conn, file_id=f.file_id, pg_cnt=f.pgcnt,
                          email_cnt=len(f.emails), type_desc=f.filetype,
                          error_msg=f.error)
