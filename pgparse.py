@@ -73,6 +73,7 @@ class HeaderParser:
             if loc != -1:
                 self._token = self._get_token(self.pgarr[self._ln][:loc])
                 if self._token in self._FIELD_TOKENS:
+                    self._header['begin_ln'] = self._ln
                     return True     # Found the start of header
             self._ln += 1
 
@@ -133,7 +134,7 @@ class HeaderParser:
                 self._tokenize()              # process header line
                 if not self._next_line():     # end of header
                     break
-            self._header['end_ln'] = self._ln
+            self._header['end_ln'] = self._ln - 1
             header_obj = self._convert_obj()  # convert _header to object
             return header_obj
         else:                                 # no header
