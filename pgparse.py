@@ -12,9 +12,10 @@ class Header:
     cc:             list[str] = field(default_factory=list)
     bcc:            list[str] = field(default_factory=list)
     attachments:    list[str] = field(default_factory=list)
-    importance:     str = field(default_factory=str)
-    begin_ln:       int = field(default_factory=int)   # start line number
-    end_ln:         int = field(default_factory=int)   # finish line number
+    # importance:     str = field(default_factory=str)
+    importance:     str = None
+    begin_ln:       int = 0   # start line number
+    end_ln:         int = 0   # finish line number
     unprocessed:    list[str] = field(default_factory=list)
 
 
@@ -73,7 +74,7 @@ class HeaderParser:
             if loc != -1:
                 self._token = self._get_token(self.pgarr[self._ln][:loc])
                 if self._token in self._FIELD_TOKENS:
-                    self._header['begin_ln'] = self._ln
+                    self._header['begin_ln'] = self._ln + 1  # human counting
                     return True     # Found the start of header
             self._ln += 1
 
@@ -115,17 +116,18 @@ class HeaderParser:
         warnings and returns None."""
         if not self._header['date']:
             self._header['date'] = self._header['sent']
-        return Header(from_email=self._header['from'],
-                      to=self._header['to'],
-                      cc=self._header['cc'],
-                      bcc=self._header['bcc'],
-                      subject=self._header['subject'],
-                      date=self._header['date'],
-                      attachments=self._header['attachments'],
-                      importance=self._header['importance'],
-                      begin_ln=self._header['begin_ln'],
-                      end_ln=self._header['end_ln'],
-                      unprocessed=self._header['unprocessed'])
+        return Header(from_email=self._header.get('from'),
+                      to=self._header.get('to'),
+                      cc=self._header.get('cc'),
+                      bcc=self._header.get('bcc'),
+                      subject=self._header.get('subject'),
+                      date=self._header.get('date'),
+                      attachments=self._header.get('attachments'),
+                      # importance=self._header['importance'),
+                      importance=self._header.get('importance'),
+                      begin_ln=self._header.get('begin_ln'),
+                      end_ln=self._header.get('end_ln'),
+                      unprocessed=self._header.get('unprocessed'))
 
     def parse(self):
         self._lncnt = len(self.pgarr)         # lines in page
@@ -134,7 +136,7 @@ class HeaderParser:
                 self._tokenize()              # process header line
                 if not self._next_line():     # end of header
                     break
-            self._header['end_ln'] = self._ln - 1
+            self._header['end_ln'] = self._ln
             header_obj = self._convert_obj()  # convert _header to object
             return header_obj
         else:                                 # no header
