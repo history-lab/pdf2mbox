@@ -150,7 +150,14 @@ def parse(page):
     hp = HeaderParser(pgarr)
     header = hp.parse()
     if header:
-        body = '\n'.join(pgarr[header.end_ln::])
+        # ignore blank lines between email header and text
+        body_begin = header.end_ln
+        for ln in pgarr[header.end_ln::]:
+            if ln == '':
+                body_begin += 1
+            else:
+                break
+        body = '\n'.join(pgarr[body_begin::])
         return Email(header=header, body=body)
     else:
         body = '\n'.join(pgarr)
