@@ -5,10 +5,10 @@ from collections import defaultdict
 
 @dataclass
 class Header:
-    from_email:     str
-    to:             list[str]
-    subject:        str
-    date:           str
+    from_email:     str = None
+    to:             list[str] = field(default_factory=list)
+    subject:        str = None
+    date:           str = None
     cc:             list[str] = field(default_factory=list)
     bcc:            list[str] = field(default_factory=list)
     attachments:    list[str] = field(default_factory=list)
@@ -33,7 +33,7 @@ class Email(Page):
 
     def get_summary(self):
         summary = f'{self.page_number}, {self.page_count}; ' \
-                  f'{self.header.subject};' \
+                  f'{self.header.subject}; {self.header.date};' \
                   f'{self.header.from_email}; {self.header.to}'
         return summary
 
@@ -115,7 +115,7 @@ class HeaderParser:
         self._header dictionary. If required fields are missing, it raises
         warnings and returns None."""
         if not self._header['date']:
-            self._header['date'] = self._header['sent']
+            self._header['date'] = self._header.get('sent')
         return Header(from_email=self._header.get('from'),
                       to=self._header.get('to'),
                       cc=self._header.get('cc'),
@@ -123,7 +123,6 @@ class HeaderParser:
                       subject=self._header.get('subject'),
                       date=self._header.get('date'),
                       attachments=self._header.get('attachments'),
-                      # importance=self._header['importance'),
                       importance=self._header.get('importance'),
                       begin_ln=self._header.get('begin_ln'),
                       end_ln=self._header.get('end_ln'),
