@@ -1,9 +1,8 @@
-"""An example script showing how to query the Fauci emails"""
+"""An example script showing how to query the Fauci emails via aiosql"""
 import psycopg2
 import aiosql
 
 conn = psycopg2.connect("")   # credentials via env vars and .psqlrc
-conn.autocommit = True
 db = aiosql.from_path("pdf2db.sql", "psycopg2")
 emails_db = db.get_emails_in_file(conn, file_id=1000)
 emails = []                   # list of dicts

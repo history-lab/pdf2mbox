@@ -1,4 +1,4 @@
-"""An example script showing how to query the Fauci emails"""
+"""An example script showing how to query the Fauci emails via pandas"""
 import psycopg2
 import pandas as pd
 
