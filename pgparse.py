@@ -33,7 +33,7 @@ class Email(Page):
 
     def get_summary(self):
         summary = f'{self.page_number}, {self.page_count}; ' \
-                  f'{self.header.subject}; {self.header.date};' \
+                  f'{self.header.subject}; {self.header.date}; ' \
                   f'{self.header.from_email}; {self.header.to}'
         return summary
 
