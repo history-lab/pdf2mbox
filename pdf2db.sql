@@ -8,7 +8,7 @@ order by file_id;
 -- Insert into email
 insert into covid19.emails (file_id, file_pg_start, pg_cnt, header_begin_ln,
     header_end_ln, from_email, to_emails, cc_emails, bcc_emails,
-    attachments, importance, subject, sent, body, header_unprocessed)
+    attachments, importance, subject, sent_str, body, header_unprocessed)
 values (:file_id, :file_pg_start, :pg_cnt, :header_begin_ln,
     :header_end_ln, :from_email, :to_emails, :cc_emails, :bcc_emails,
     :attachments, :importance, :subject, :sent, :body, :header_unprocessed);
