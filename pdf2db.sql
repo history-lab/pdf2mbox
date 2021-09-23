@@ -21,6 +21,13 @@ select email_id, file_pg_start, pg_cnt, header_begin_ln, header_end_ln,
 from covid19.emails
 where file_id = :file_id;
 
+-- name: get-fauci-emails-pg-start
+-- Select all emails from a specific file, identified by id.
+select file_pg_start
+from covid19.emails
+where file_id = '1000'
+order by file_pg_start;
+
 -- name: upsert-file-stats!
 -- Upsert file_stats
 insert into covid19.file_stats (file_id, pg_cnt, email_cnt, type_desc, error_msg)
