@@ -1,7 +1,7 @@
 -- name: get-dc19pdf-list
 -- Get list of all pdfs that can be processed
 select file_id, foiarchive_file from covid19.files
-where file_id = 1000       /* ready */
+where ready
 order by file_id;
 
 -- name: insert-email!
