@@ -28,6 +28,15 @@ from covid19.emails
 where file_id = '1000'
 order by file_pg_start;
 
+-- name: get-dc19-emails-pg-start
+-- Select all processed DC19 files, retruning a list of start pages
+select file_id, source_url, foiarchive_file,
+       array_agg(file_pg_start order by file_pg_start) pg_starts
+   from covid19.dc19_emails
+   where file_id > 291
+   group by file_id, source_url, foiarchive_file
+   order by file_id;
+
 -- name: upsert-file-stats!
 -- Upsert file_stats
 insert into covid19.file_stats (file_id, pg_cnt, email_cnt, type_desc, error_msg)
