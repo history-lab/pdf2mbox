@@ -1,0 +1,2 @@
+python-magic==0.4.24
+xmpdf==0.3
