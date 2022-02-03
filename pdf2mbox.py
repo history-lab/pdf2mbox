@@ -23,10 +23,13 @@ class Mbox:
             msg = mailbox.mboxMessage()
             msg.set_unixfrom(self._encode('Author' + self._encode(em.header.
                                                                   date)))
-            msg['From'] = email.utils.formataddr(('Author', self._encode(
-                                                  em.header.from_email)))
-            msg['To'] = email.utils.formataddr(('Recipient', self._encode(
-                                                em.header.to)))
+            msg['Date'] = em.header.date
+            msg['From'] = self._encode(em.header.from_email)
+            msg['To'] = self._encode(em.header.to)
+            # msg['From'] = email.utils.formataddr(('Author', self._encode(
+            #                                      em.header.from_email)))
+            # msg['To'] = email.utils.formataddr(('Recipient', self._encode(
+            #                                    em.header.to)))
             msg['Subject'] = self._encode(em.header.subject)
             msg.set_payload(self._encode(em.body))
             self.mbox.add(msg)
@@ -63,7 +66,7 @@ print(om.info())
 mbox = Mbox(mbox_filename)
 # mbox.addmsg(om.emails[0])
 for i in range(100):
-    print(i)
+    print(i, om.emails[i].header.date)
     mbox.addmsg(om.emails[i])
 # print(om.to_json())
 # if csv_filename:
