@@ -43,7 +43,8 @@ parser.add_argument('--version', '-v', action='version',
                     version='%(prog)s 0.1')
 parser.add_argument('--overwrite', '-o', action="store_true",
                     help='overwrite MBOX file if it exists')
-parser.add_argument('--csv', type=argparse.FileType('w', encoding='utf-8'),
+parser.add_argument('--csv', nargs='?', const="out.csv",
+                    type=argparse.FileType('w', encoding='utf-8'),
                     help='generate CSV file output')
 cl_args = parser.parse_args()
 pdf_filename = cl_args.pdf_file
@@ -60,7 +61,6 @@ if not os.path.isfile(pdf_filename):
 if magic.from_file(pdf_filename, mime=True) != 'application/pdf':
     sys.exit(f'error: {pdf_filename} is not a PDF file.')
 # mbox
-print(mbox_overwrite)
 if os.path.exists(mbox_filename):
     if mbox_overwrite:
         print(f'Overwriting {mbox_filename}')
@@ -68,14 +68,15 @@ if os.path.exists(mbox_filename):
     else:
         print(f'Appending email messages to {mbox_filename}')
 else:
-    print(f'Writing email messages in MBOX format to {mbox_filename}.')
-
+    print(f'Writing email messages in MBOX format to {mbox_filename}')
+# csv
+if csv_filename:
+    print(f'Writing csv to {csv_filename.name}')
+#
 om = xmpdf.Xmpdf(pdf_filename)
-print(mbox_filename)
 print(om.info())
 mbox = Mbox(mbox_filename)
 for e in om.emails:
     mbox.addmsg(e)
-# print(om.to_json())
-# if csv_filename:
-#    om.to_csv(csv_filename)
+if csv_filename:
+    om.to_csv(csv_filename)
