@@ -33,6 +33,14 @@ class Mbox:
             self.mbox.unlock()
 
 
+def pdf2mbox(pdf_filename, mbox_filename):
+    xms = xmpdf.Xmpdf(pdf_filename)
+    mbox = Mbox(mbox_filename)
+    for e in xms.emails:
+        mbox.addmsg(e)
+    return xms
+
+
 # CLI
 parser = argparse.ArgumentParser(
             description='Generates an mbox from a PDF containing emails')
@@ -73,10 +81,7 @@ else:
 if csv_filename:
     print(f'Writing csv to {csv_filename.name}')
 #
-om = xmpdf.Xmpdf(pdf_filename)
-print(om.info())
-mbox = Mbox(mbox_filename)
-for e in om.emails:
-    mbox.addmsg(e)
+xms = pdf2mbox(pdf_filename, mbox_filename)
+print(xms.info())
 if csv_filename:
-    om.to_csv(csv_filename)
+    xms.to_csv(csv_filename)
