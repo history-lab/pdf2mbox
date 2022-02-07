@@ -51,7 +51,7 @@ parser.add_argument('--version', '-v', action='version',
                     version='%(prog)s 0.1')
 parser.add_argument('--overwrite', '-o', action="store_true",
                     help='overwrite MBOX file if it exists')
-parser.add_argument('--csv', nargs='?', const="out.csv",
+parser.add_argument('--csv', nargs='?', const='out.csv',
                     type=argparse.FileType('w', encoding='utf-8'),
                     help='generate CSV file output')
 cl_args = parser.parse_args()
