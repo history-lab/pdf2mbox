@@ -4,6 +4,7 @@ import sys
 import magic
 import xmpdf
 import mailbox
+import importlib
 
 
 class Mbox:
@@ -48,7 +49,7 @@ parser.add_argument('pdf_file', help='PDF file provided as input')
 parser.add_argument('mbox_file', nargs='?', default='out.mbox',
                     help='Mbox file generated as output')
 parser.add_argument('--version', '-v', action='version',
-                    version='%(prog)s 0.1')
+                    version=f"%(prog)s {importlib.metadata.version('pdf2mbox')}")
 parser.add_argument('--overwrite', '-o', action="store_true",
                     help='overwrite MBOX file if it exists')
 parser.add_argument('--csv', nargs='?', const='out.csv',
