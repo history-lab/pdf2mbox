@@ -24,9 +24,9 @@ a command-line utility and Python package for converting PDF emails to MBOX form
       --overwrite, -o  overwrite MBOX file if it exists
       --csv [CSV]      generate CSV file output
 
-      # from within python
-      from pdf2mbox import pdf2mbox
-      pe = pdf2mbox(pdf_file, mbox_file) # pe contains dict of emails
+    # from within python
+    from pdf2mbox import pdf2mbox
+    pe = pdf2mbox(pdf_file, mbox_file) # pe contains dict of emails
 
 ## Notes
 * The initial development of this package was funded in part by The Mellon Foundation’s “Email Archives: Building Capacity and Community” program.
