@@ -21,5 +21,5 @@ setup(name="pdf2mbox",
       author="Ben Lis, History Lab @ Columbia University",
       url="https://github.com/history-lab/pdf2mbox",
       license="MIT License",
-      install_requires=["xmpdf"],
+      install_requires=["xmpdf", "python-magic"],
       py_modules=["pdf2mbox"])
