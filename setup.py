@@ -1,8 +1,10 @@
+"""setup.py: the pacakging definitions."""
 from setuptools import setup
 import os
 
 
 def get_long_description():
+    """Generate the long description from the README.md contents."""
     with open(
         os.path.join(os.path.dirname(__file__), "README.md"),
         encoding="utf8",
@@ -11,7 +13,7 @@ def get_long_description():
 
 
 setup(name="pdf2mbox",
-      version="0.3",
+      version="0.3.1",
       long_description=get_long_description(),
       long_description_content_type="text/markdown",
       description="Extracts email metadata and text from a PDF file",

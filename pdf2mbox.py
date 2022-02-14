@@ -1,3 +1,4 @@
+"""pdf2mbox.py: Code file."""
 import argparse
 import os.path
 import sys
@@ -8,16 +9,38 @@ import importlib
 
 
 class Mbox:
+    """
+    A class the represents an MBOX.
+
+    ...
+    Attributes
+    ----------
+    mbox_filename : str
+        File name of associated MBOX
+
+    Methods
+    -------
+    addmsg(em):
+        Adds email to mbox
+    """
+
     def __init__(self, mbox_filename):
+        """
+        Create Mbox and associates it with mbox_filename.
+
+        Creates mbox_filename if it doesn't exist. Opens and appends if exists.
+        """
         self.mbox = mailbox.mbox(mbox_filename)
 
     def _encode(self, s):
+        """Replace non-ASCII characters."""
         if s:
             return s.encode('ascii', errors='backslashreplace').decode('ascii')
         else:
             return ''
 
     def addmsg(self, em):
+        """Convert an Xmpdf email to mboxMessage format and add to MBOX."""
         self.mbox.lock()
         try:
             msg = mailbox.mboxMessage()
@@ -35,6 +58,20 @@ class Mbox:
 
 
 def pdf2mbox(pdf_filename, mbox_filename):
+    """Extract emails from PDF file and store in MBOX File.
+
+    Parameters
+    ----------
+    pdf_filename: str
+        Name of PDF containing emails.
+    mbox_filename: str
+        Name of MBOX file that is destination for emails.
+
+    Returns
+    -------
+    obj
+        instance of Xmpdf class; contain representation of email collection
+    """
     xms = xmpdf.Xmpdf(pdf_filename)
     mbox = Mbox(mbox_filename)
     for e in xms.emails:
@@ -44,6 +81,7 @@ def pdf2mbox(pdf_filename, mbox_filename):
 
 # CLI
 def cli():
+    """Process command line arguments."""
     parser = argparse.ArgumentParser(description='Generates an mbox from a PDF \
     containing emails')
     parser.add_argument('pdf_file', help='PDF file provided as input')
