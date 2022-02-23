@@ -72,7 +72,8 @@ def pdf2mbox(pdf_filename, mbox_filename):
     obj
         instance of Xmpdf class; contain representation of email collection
     """
-    xms = xmpdf.Xmpdf(pdf_filename)
+    with open(pdf_filename, "rb") as f:
+        xms = xmpdf.Xmpdf(f)
     mbox = Mbox(mbox_filename)
     for e in xms.emails:
         mbox.addmsg(e)

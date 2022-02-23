@@ -13,7 +13,7 @@ def get_long_description():
 
 
 setup(name="pdf2mbox",
-      version="0.3.2",
+      version="0.3.3",
       python_requires=">=3.8",
       long_description=get_long_description(),
       long_description_content_type="text/markdown",
